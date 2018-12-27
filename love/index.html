@@ -6,6 +6,9 @@
     <title>王杰我爱你哟</title>
 </head>
 <style>
+    *{
+        margin: 0;
+    }
     .love{
         width: 100%;
         text-align: center;
@@ -14,15 +17,45 @@
         top: 50%;
     }
     .move{
-        animation:infinite move 5s ;
+        animation:infinite move 6s ;
     }
     @keyframes move {
-        0% {color:black;}
-        50% {color:red;}
-        100% {color:plum;}
+        0% {
+            color:black;
+            transform: rotate(90deg);
+        }
+        25% {
+            color:red;
+            transform: rotate(180deg);
+        }
+        50%{
+            color:blue;
+            transform: rotate(270deg);
+        }
+        100% {
+            color:plum;
+            transform: rotate(360deg);
+        }
     }
 </style>
 <body>
 <div class="love move">老婆，我爱你！</div>
 </body>
+<script>
+    window.onload = function () {
+        var flag;
+        let str =  document.getElementsByClassName('love')[0];
+        str.onclick=function () {
+            if( flag == "false"){
+                return;
+            }
+           str.innerHTML = '哈哈哈!!!';
+           flag = 'false';
+         let time = setTimeout(function () {
+             str.innerHTML = '老婆，我爱你！';
+             flag = 'true';
+           },5000)
+        }
+    }
+</script>
 </html>
