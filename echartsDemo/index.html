@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='js/echarts.js'></script>
+    <script src='js/echarts-liquidfill.js'></script>
+    <script src="js/jquery.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+</head>
+<style>
+    *{
+        margin: 0;
+        height: 100%;
+        width: 100%;
+    }
+    #progressBar{
+        position: absolute;
+        left: 0;
+        top: -10px;
+        width: 20px;
+        height: 20px;
+        background-color: #000;
+        cursor: pointer;
+        border-radius: 20px;
+    }
+    #main{
+        transform:scale(0.5);
+    }
+</style>
+<body>
+<div id="main" style="width: 400px;height:400px;margin: auto"></div>
+<div id="progress" style="position: relative;height: 1px;width: 300px;background-color: red;margin: auto">
+    <div id="progressBar"></div>
+</div>
+</body>
+<script>
+    /**
+     * @author roy
+     * @date 2018/12/24
+     * @Description: 水波球，移动端使用，详细api见：https://github.com/ecomfe/echarts-liquidfill#api
+    */
+    $(document).ready(function () {
+        var progress = document.getElementById('progress');
+        var progressBar = document.getElementById('progressBar');
+        var myChart = echarts.init(document.getElementById('main'));
+        var num = 0;//设置初始值为0
+        var option = {
+            series: [{
+                type: 'liquidFill',
+                data: [num],
+                label:{
+                    show:false,
+                },
+                amplitude: '5%',//振幅
+                waveLength: '80%',//波长
+                animationDuration :10,//涨水速度
+                animationDurationUpdate:1000,
+                outline:{//是否显示外圈
+                    show:false
+                }
+            }],
+        };
+        myChart.setOption(option);//初始化水波球
+        progress.addEventListener('touchstart', function () {
+        }, false);
+        progress.addEventListener("touchmove",function () {
+            touch(event);
+        },false)
+        function touch(event) {
+            var event = event.touches[0];
+            var initX=event.clientX-progress.getBoundingClientRect().left;
+            if(initX<0){
+                initX=0;
+            }
+            if(initX>progress.getBoundingClientRect().width){
+                initX=progress.getBoundingClientRect().width;
+            }
+            progressBar.style.left=parseInt(initX)+"px";
+            num = parseInt(initX)/progress.offsetWidth;
+            option.series[0].data = [num];//重新设置水波球的进度
+            myChart.setOption(option);//重新初始化
+        };
+    })
+</script>
+</html>
