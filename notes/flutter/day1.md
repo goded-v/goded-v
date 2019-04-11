@@ -38,3 +38,47 @@ class MyApp extends StatelessWidget {
 
 ```
 
+
+
+### 2.Container Widget(类似于div)
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context){
+
+    return MaterialApp(
+      title: 'welcome to flutter',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('welcome to flutter'),
+        ),
+        body: Center(
+          child:Container(//类型于div
+            child: new Text('hello world',style: TextStyle(fontSize: 40.0),),
+            alignment: Alignment.topLeft,//居中方式
+            width: 500.0,//宽高都为float
+            height: 400.0,
+//            color: Colors.lightBlue,//设置背景颜色
+            padding: const EdgeInsets.fromLTRB(10.0,100.0,0.0,0.0),//设置内边距
+            margin: const EdgeInsets.all(10.0),//设置外边距
+            decoration: new BoxDecoration( //设置时要将color注释掉，否则会报错
+              gradient:const LinearGradient(//设置线性渐变
+                 colors: [Colors.lightBlue,Colors.greenAccent,Colors.purple],
+              ),
+              border: Border.all(width: 2.0,color: Colors.red),//设置边框
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+}
+
+```
+
