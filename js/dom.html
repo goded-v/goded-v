@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+    .click{
+        background: red;
+    }
+</style>
+<body>
+<div id="app">
+    <div v-for="(item,index) in list">
+        <p :class="{click:item.class}" @click="add($event,item)"  :key="item.name">{{item.name}}</p>
+    </div>
+    <div @click="deleteItem()">删除</div>
+</div>
+<div id="app1">
+    <div v-for="(item,index) in list" >
+        <p :class="{click:item.class}" @click="add($event,item)" :key="item.name">{{item.name}}</p>
+    </div>
+    <div @click="deleteItem()">删除</div>
+    <div @click="change()">强行改</div>
+</div>
+</body>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{
+            list:[
+                {name:"0",id:"0"},
+                {name:"1",id:"1"},
+                {name:"2",id:"2"},
+                {name:"3",id:"3"},
+                {name:"4",id:"4"},
+                {name:"5",id:"5"},
+            ],
+            deleteArr:[],
+        },
+        methods: {
+            add(event,item){
+                let me = this;
+                let target = event.currentTarget;
+                target.className = target.className=="click"?"":target.className="click";
+                if(target.className==="click"){
+                    me.deleteArr.push(item);
+                }else{
+                    let index = me.deleteArr.indexOf(item);
+                    if (index > -1) {
+                        me.deleteArr.splice(index, 1);
+                    }
+                }
+            },
+            deleteItem(){
+                let me = this;
+                let newArr = [];
+                for (var i=0;i<me.list.length;i++){
+                    if(me.deleteArr.indexOf(me.list[i])===-1){
+                        newArr.push(me.list[i]);
+                    }
+                }
+                me.list = newArr
+            }
+        }
+    });
+    var app1 = new Vue({
+        el:"#app1",
+        data:{
+            list:[
+                {name:"0",id:"0",class:false},
+                {name:"1",id:"1",class:false},
+                {name:"2",id:"2",class:false},
+                {name:"3",id:"3",class:false},
+                {name:"4",id:"4",class:false},
+                {name:"5",id:"5",class:false},
+            ],
+            deleteArr:[],
+        },
+        methods: {
+            add(event,item){
+                let me = this;
+                item.class = !item.class;
+                me.deleteArr.push(item)
+                // if(item.class === true) {
+                //     me.deleteArr.push(item)
+                //   }else {
+                //     let index = me.deleteArr.indexOf(item);
+                //     if (index > -1) {
+                //         me.deleteArr.splice(index, 1);
+                //     }
+                // }
+            },
+            change(){
+                document.getElementById("app1").childNodes[0].childNodes[0].className = " click";
+            },
+            deleteItem(){
+                let me = this;
+                let newArr = [];
+                for (var i=0;i<me.list.length;i++){
+                    if(me.deleteArr.indexOf(me.list[i])===-1){
+                        newArr.push(me.list[i]);
+                    }
+                }
+                me.list = newArr
+            }
+        }
+    });
+</script>
+</html>
