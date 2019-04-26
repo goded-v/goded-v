@@ -115,3 +115,112 @@ deleteItem(){
 在渲染赋值的时候先将list数组赋值为空，在视图完成更新后，再赋值。这时就能实现想要的效果。
 
 ![Image text](https://goded-v.github.io/img/git/demo_list3.png)
+
+### 方案二
+
+先看了vue  Virtual DOM 的 diff算法后，发现虚拟dom的更新在有key值索引的情况下更快。（具有算法规则网上博客很多，在此不多说）。再加上看到风格指南上强调总是用key配合v-for。我就联想到以前遇到的这个问题，是不是没有绑定key值导致的。
+
+于是就写了个demo试了一下。
+
+```html
+<div id="app">
+    <div v-for="(item,index) in list">
+        <p :class="{click:item.class}" @click="add($event,item)" :key="item.name">{{item.name}}</p>
+    </div>
+    <div @click="deleteItem()">删除</div>
+</div>
+```
+
+代码同第一份完整的代码一样，只是绑定了key。发现，真的达到了想要的效果。
+
+### 方案三
+
+在v-for时绑定class来解决上述问题，将属性初始化在data中，使之成为响应式的。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<style>
+    .click{
+        background: red;
+    }
+</style>
+<body>
+<div id="app">
+    <div v-for="(item,index) in list" >
+        <p :class="{click:item.class}" @click="add($event,item)">{{item.name}}</p>
+    </div>
+    <div @click="deleteItem()">删除</div>
+</div>
+</body>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{
+            list:[
+                {name:"0",id:"0",class:false},
+                {name:"1",id:"1",class:false},
+                {name:"2",id:"2",class:false},
+                {name:"3",id:"3",class:false},
+                {name:"4",id:"4",class:false},
+                {name:"5",id:"5",class:false},
+            ],
+            deleteArr:[],
+        },
+        methods: {
+            add(event,item){
+                let me = this;
+                item.class = !item.class;
+                me.deleteArr.push(item)
+                if(item.class === true) {
+                    me.deleteArr.push(item)
+                  }else {
+                    let index = me.deleteArr.indexOf(item);
+                    if (index > -1) {
+                        me.deleteArr.splice(index, 1);
+                    }
+                }
+            },
+            deleteItem(){
+                let me = this;
+                let newArr = [];
+                for (var i=0;i<me.list.length;i++){
+                    if(me.deleteArr.indexOf(me.list[i])===-1){
+                        newArr.push(me.list[i]);
+                    }
+                }
+                me.list = newArr;
+            }
+        }
+    });
+</script>
+</html>
+```
+
+
+
+这样也能实现上述效果。但是当我们强行改变dom后，会发现，仍会出现刚才那种，样式不更新的现象。
+
+```html
+<div @click="change()">强行改</div>
+```
+
+```javascript
+change(){
+    document.getElementById("app").childNodes[0].childNodes[0].className = " click";
+},
+```
+
+![Image text](https://goded-v.github.io/img/git/demo_list4.png)
+
+这也是由于强制操作dom造成的。如果绑定上key值，就会发现解决问题了。
+
+### 总结
+
+在使用v-for渲染的模块中，如果要暴力操作dom，需要key值。但是为了规范开发，在使用v-for时都要带上key。key的索引不要是index，最好是特有的属性。
+
