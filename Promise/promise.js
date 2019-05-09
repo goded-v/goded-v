@@ -139,6 +139,7 @@ function resolvePromise(promise2, x, resolve, reject) {
                 }, (r) => {
                     // 成功和失败只能调用一个
                     if(called) return;
+                    called = true;
                     reject(r);
                 });
             } else {
@@ -214,4 +215,23 @@ Promise.prototype.all = function(promises){
         };
     });
 }
+/**
+ * cath方法 相当于调用 then 方法, 但只传入 Rejected 状态的回调函数
+ * @param promises
+ * @returns {Promise}
+ */
+Promise.prototype.catch = function(onRejected){
+    return this.then(undefined,onRejected)
+}
+/**
+ * finally方法 用于指定不管 Promise 对象最后状态如何，都会执行的操作
+ * @param onRejected
+ * @returns {Promise}
+ */
+Promise.prototype.finally = function(val){
+    return this.then(
+        value  => Promise.resolve(val).then(() => value),
+        reason => Promise.resolve(val).then(() => { throw reason })
+    );
 
+}
