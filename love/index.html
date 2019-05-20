@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>love</title>
+</head>
+<style>
+    body{
+        background: rgb(252, 235, 236);
+        -webkit-animation:body 2s infinite;
+    }
+    @-webkit-keyframes body{
+        50% {
+            background: rgb(250, 211, 214);
+        }
+    }
+
+    .love {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        botton: 0;
+        margin: 200px auto;
+        background:rgb(207, 105, 112);
+        width: 250px;
+        height:250px;
+        transform: rotate(-45deg);
+        -webkit-animation:love 3s infinite 1s;
+    }
+    @-webkit-keyframes love{
+        50%{
+            transform: scale(1.2) rotate(-45deg);
+        }
+
+    }
+    .love::before{
+        position:absolute;
+        content: '';
+        background:rgb(207, 105, 112);
+        background-color: rgb(207, 105, 112);
+        border-radius: 50%;
+        width: 250px;
+        height: 250px;
+        left: 0px;
+        top:-125px;
+    }
+    .love::after{
+        position:absolute;
+        content: '';
+        background:rgb(207, 105, 112);
+        background-color: rgb(207, 105, 112);
+        border-radius: 50%;
+        width: 250px;
+        height: 250px;
+        left: 125px;
+        top:0px;
+    }
+    .love-1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        botton: 0;
+        margin: 250px auto;
+        background-color: rgb(231, 132, 139);
+        width: 125px;
+        height:125px;
+        transform: rotate(-45deg);
+        -webkit-animation:love 2s infinite 1s;
+    }
+
+    .love-1::before{
+        position:absolute;
+        content: '';
+        background:rgb(207, 105, 112);
+        background-color: rgb(231, 132, 139);;
+        border-radius: 50%;
+        width: 125px;
+        height: 125px;
+        left: 0px;
+        top:-75px;
+    }
+    .love-1::after{
+        position:absolute;
+        content: '';
+        background:rgb(207, 105, 112);
+        background-color: rgb(231, 132, 139);;
+        border-radius: 50%;
+        width: 125px;
+        height: 125px;
+        left: 75px;
+        top:0px;
+    }
+
+    .love-2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        botton: 0;
+        margin: 300px auto;
+        background-color: pink;
+        width: 62.5px;
+        height:62.5px;
+        transform: rotate(-45deg);
+        -webkit-animation:love 1s infinite 1s;
+    }
+    .love-2::before{
+        position:absolute;
+        content: '';
+        background: pink;
+        background-color: pink;
+        border-radius: 50%;
+        width: 62.5px;
+        height: 62.5px;
+        left: 0px;
+        top:-37.5px;
+    }
+    .love-2::after{
+        position:absolute;
+        content: '';
+        background:pink;
+        background-color: pink;;
+        border-radius: 50%;
+        width: 62.5px;
+        height: 62.5px;
+        left: 37.5px;
+        top:0px;
+    }
+</style>
+<body>
+<div class="love"></div>
+<div class="love-1"></div>
+<div class="love-2"></div>
+</body>
+</html>
